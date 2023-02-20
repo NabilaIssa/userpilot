@@ -1,0 +1,153 @@
+.table-design {
+  width: 100%;
+  border-collapse: collapse;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid #dfe0eb;
+}
+
+.table-design th {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: left;
+  padding: 20px;
+  color: #9fa2b4;
+}
+
+.table-design td {
+  color: #252733;
+  font-size: 14px;
+  padding: 20px;
+  border: none;
+}
+
+.table-design tr {
+  border-bottom: 2px solid #dfe0eb;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.table-design tr:hover {
+  background-color: #f7f8ff;
+}
+
+.table-item {
+  display: flex;
+  align-items: center;
+}
+.table-content {
+  margin-left: 20px;
+}
+.table-thumb img {
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.table--title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #252733;
+}
+
+.table--desc {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #c5c7cd;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 575.98px) {
+  table {
+    box-shadow: unset !important;
+  }
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  table td:not(:first-child),
+  table th:not(:first-child) {
+    box-shadow: none;
+  }
+
+  table tr {
+    position: relative;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: unset !important;
+    width: unset !important;
+    box-shadow: 0 0 0 1px hsl(0deg 0% 72% / 10%),
+      0 2px 3px hsl(0deg 0% 55% / 20%) !important;
+  }
+
+  table tr td,
+  table tr th {
+    height: unset !important;
+    width: unset !important;
+  }
+
+  table tr:nth-child(odd) td:not(:last-child) {
+    border-bottom: 1px solid #c4d7d0 !important;
+  }
+
+  table tr:nth-child(even) td:not(:last-child) {
+    border-bottom: 1px solid #c7c7c7 !important;
+  }
+
+  table tr:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(45% - 5px);
+    height: 100%;
+  }
+
+  table tr:nth-child(odd):before {
+    background: var(--green);
+  }
+
+  table tr:nth-child(even):before {
+    background: var(--gray);
+  }
+
+  table td {
+    border: none;
+    position: relative;
+    text-align: left !important;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    direction: ltr;
+  }
+
+  table td:before {
+    content: attr(data-name);
+    width: 45%;
+    padding-right: 15px;
+    display: block;
+    text-align: left;
+    flex: none;
+    font-weight: 500;
+    color: white;
+    right: 0;
+    font-size: 15px;
+  }
+}

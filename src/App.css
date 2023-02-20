@@ -1,21 +1,11 @@
+*{
+  font-family: "Mulish", sans-serif;
+  box-sizing: border-box;
+  outline: none;
+}
 body {
+  cursor: default;
   margin: 0;
-}
-
-.sidebar {
-  width: 255px;
-  height: 100vh;
-  background: #363740;
-}
-
-.sidebar-logo {
-  display: block;
-  padding: 40px;
-}
-
-.sidebar-logo img {
-  display: block;
-  margin: 0 auto;
 }
 
 .list {
@@ -25,7 +15,7 @@ body {
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
   font-size: 16px; /* Preferred icon size */
@@ -46,31 +36,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   /* Support for IE. */
-  font-feature-settings: 'liga';
+  font-feature-settings: "liga";
 }
 
-.sidebar-list li .item {
-  padding: 20px 25px;
+.container {
   display: flex;
-  align-items: center;
-  font-family: 'Mulish';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  letter-spacing: 0.2px;
-  color: #a4a6b3;
-  text-decoration: none;
-}
-
-.sidebar-list li .item svg {
-  display: block;
-  font-size: 16px;
-  color: #a4a6b3;
-  margin-right: 15px;
-}
-.sidebar-list li .item.active {
-  background: #3e4049;
-  color: #dde2ff;
-  border-left: 3px solid #dde2ff;
 }

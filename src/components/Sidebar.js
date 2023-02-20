@@ -1,11 +1,10 @@
+import '../css/Sidebar.css';
 import React from 'react';
 import logo from '../images/logo.png';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PersonIcon from '@mui/icons-material/Person';
-import '@fontsource/mulish/400.css';
-
 
 const Sidebar = () => {
   return (

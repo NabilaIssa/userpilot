@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// import React from 'react'
+// import PropTypes from 'prop-types'
 
-function UserPopup(props) {
-  return (
-    <div>
+// function UserPopup(props) {
+//   return (
+//     <div>
       
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-UserPopup.propTypes = {
+// UserPopup.propTypes = {
 
-}
+// }
 
-export default UserPopup
+// export default UserPopup
 

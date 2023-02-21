@@ -147,37 +147,38 @@ TablePaginationActions.propTypes = {
 };
 
 const Users = () => {
-  const {
-    data: users,
-    loading,
-    error,
-  } = useFetch('https://randomuser.me/api?results=8');
-
-  const [page, setPage] = React.useState(0);
+  const [items, setItems] = React.useState(null);
+  const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-  const [rowsLength, setRowsLength] = React.useState(8);
 
+  const { data, loading, error } = useFetch(
+    `https://randomuser.me/api?results=${rowsPerPage}&page=${page}`
+  );
   if (loading) return <h1 className="loading">Loadign</h1>;
   if (error) return console.log(error);
+  return data;
+  setItems(data);
 
-  if (users == null) {
+  // const [rowsLength, setRowsLength] = React.useState(8);
+
+  if (items === null) {
     return;
   }
 
-  if (users !== null) {
-    setRowsLength(users.results.length);
-  }
+  // if (users !== null) {
+  //   setRowsLength(users.results.length);
+  // }
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowsLength) : 0;
+  // const emptyRows =
+  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowsLength) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setRowsPerPage(parseInt(event.target.value, 8));
+    setPage(1);
   };
 
   return (
@@ -204,30 +205,24 @@ const Users = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(rowsPerPage > 0
-                ? users.results.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
-                : users.results
-              ).map((user) => (
+              {items.results.map((user) => (
                 <UserRow key={user.name.first} user={user} />
               ))}
 
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  rowsPerPageOptions={[8, 16, 24]}
                   colSpan={3}
-                  count={rowsLength}
-                  rowsPerPage={rowsPerPage}
+                  count={-1}
                   page={page}
+                  rowsPerPage={rowsPerPage}
                   SelectProps={{
                     inputProps: {
                       'aria-label': 'rows per page',

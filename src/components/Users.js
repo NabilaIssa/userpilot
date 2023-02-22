@@ -147,13 +147,17 @@ const Users = () => {
 
   if (loading) {
     return (
-      <CircularProgress />
+      <div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <CircularProgress />
+      </div>
     );
   }
 
   if (error) {
       return (
-        <Alert severity="error">Something went wrong</Alert>
+        <div style={{width: '100%'}}>
+          <Alert style={{width: '100%'}} severity="error">Something went wrong</Alert>
+        </div>
       );
   }
 

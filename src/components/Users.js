@@ -24,6 +24,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 
+import { CircularProgress, Alert } from '@mui/material';
+
 const getFullName = (name) => {
   return name['first'] + ' ' + name['last'];
 };
@@ -93,10 +95,6 @@ function TablePaginationActions(props) {
     onPageChange(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
@@ -119,7 +117,7 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={count < rowsPerPage}
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? (
@@ -127,13 +125,6 @@ function TablePaginationActions(props) {
         ) : (
           <KeyboardArrowRight />
         )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   );
@@ -147,39 +138,44 @@ TablePaginationActions.propTypes = {
 };
 
 const Users = () => {
-  const [items, setItems] = React.useState(null);
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const { data, loading, error } = useFetch(
     `https://randomuser.me/api?results=${rowsPerPage}&page=${page}`
   );
-  if (loading) return <h1 className="loading">Loadign</h1>;
-  if (error) return console.log(error);
-  return data;
-  setItems(data);
 
-  // const [rowsLength, setRowsLength] = React.useState(8);
-
-  if (items === null) {
-    return;
+  if (loading) {
+    return (
+      <CircularProgress />
+    );
   }
 
-  // if (users !== null) {
-  //   setRowsLength(users.results.length);
-  // }
+  if (error) {
+      return (
+        <Alert severity="error">Something went wrong</Alert>
+      );
+  }
 
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowsLength) : 0;
+  const items = data ? data.results : [];
+
+  if (items === null) {
+    return (
+      <Alert severity="info">No data</Alert>
+    );
+  }
+
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 8));
+    setRowsPerPage(parseInt(event.target.value));
     setPage(1);
   };
+
+  const itemsCount = ((page - 1) * rowsPerPage) + items.length;
 
   return (
     <Box sx={{ width: '100%', padding: '40px' }}>
@@ -205,23 +201,17 @@ const Users = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.results.map((user) => (
-                <UserRow key={user.name.first} user={user} />
+              {items?.map((user, index) => (
+                <UserRow key={page + " " + index} user={user} />
               ))}
-
-              {/* {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )} */}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[8, 16, 24]}
                   colSpan={3}
-                  count={-1}
-                  page={page}
+                  count={itemsCount}
+                  page={page - 1}
                   rowsPerPage={rowsPerPage}
                   SelectProps={{
                     inputProps: {

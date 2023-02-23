@@ -13,11 +13,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Link } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   sidebar: {
     height: '100%',
     minHeight: '100vh',
-    background: '#363740',
+    background: theme.palette.primary.dark,
   },
   sidebarLogo: {
     display: 'block',
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   listItemButton: {
     color: '#a4a6b3 !important',
     '&.Mui-selected': {
-      background: '#3e4049',
+      background: theme.palette.primary.dark,
       color: '#dde2ff',
       borderLeft: '3px solid #dde2ff',
     },
@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   listItemIcon: {
     color: '#a4a6b3 !important',
   },
-});
+}));
 
 const Sidebar = () => {
   const classes = useStyles();
@@ -47,6 +47,7 @@ const Sidebar = () => {
       id: 1,
       title: 'Overview',
       icon: <PieChartIcon className="material-icons"></PieChartIcon>,
+      url: '/',
     },
     {
       id: 2,
@@ -54,16 +55,19 @@ const Sidebar = () => {
       icon: (
         <ConfirmationNumberIcon className="material-icons"></ConfirmationNumberIcon>
       ),
+      url: '/',
     },
     {
       id: 3,
       title: 'Ideas',
       icon: <LightbulbIcon className="material-icons"></LightbulbIcon>,
+      url: '/',
     },
     {
       id: 4,
       title: 'Users',
       icon: <PersonIcon className="material-icons"></PersonIcon>,
+      url: '/users',
     },
   ];
 
@@ -73,9 +77,9 @@ const Sidebar = () => {
         <img src={logo} alt="Userpilot" className={classes.sidebarLogoImg} />
       </Link>
       <List>
-        {icons.map((item) => (
+        {icons.map((item,index) => (
           <ListItem key={item['id']} disablePadding>
-            <ListItemButton className={classes.listItemButton} selected>
+            <ListItemButton className={classes.listItemButton} selected={index === 3}>
               <ListItemIcon className={classes.listItemIcon}>
                 {item['icon']}
               </ListItemIcon>

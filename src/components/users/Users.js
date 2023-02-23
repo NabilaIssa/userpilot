@@ -19,6 +19,9 @@ import UserPaginationActions from './UserPaginationActions';
 import Controls from '../controls/Controls';
 import { CircularProgress, Alert } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useParams } from 'react-router-dom';
+import Drawer from '@mui/material/Drawer';
+import UserDetails from './UserDetails';
 
 const useStyles = makeStyles({
   rootCenter: {
@@ -74,6 +77,11 @@ const Users = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const [gender, setGender] = React.useState('');
   const [nationality, setNationality] = React.useState('');
+  const { userId } = useParams();
+  const [openPopup, setOpenPopup] = React.useState(!!userId);
+  const [selectedUserId, setSelectedUserId] = React.useState(
+    userId ? userId : null
+  );
 
   const { data, loading, error } = useFetch(
     `https://randomuser.me/api?results=${rowsPerPage}&page=${page}&gender=${gender}&nat=${nationality}`
@@ -130,6 +138,16 @@ const Users = () => {
 
   const itemsCount = (page - 1) * rowsPerPage + items.length;
 
+  const onRowClick = (user) => {
+    setSelectedUserId(user?.id?.value);
+    setOpenPopup(true);
+  };
+
+  const onDrawerClose = () => {
+    setOpenPopup(false);
+    setSelectedUserId(null);
+  };
+
   return (
     <Paper>
       <Toolbar>
@@ -178,7 +196,11 @@ const Users = () => {
           </TableHead>
           <TableBody>
             {items?.map((user, index) => (
-              <UserRow key={page + ' ' + index} user={user} />
+              <UserRow
+                key={page + ' ' + index}
+                user={user}
+                onClick={onRowClick}
+              />
             ))}
           </TableBody>
           <TableFooter>
@@ -204,6 +226,18 @@ const Users = () => {
           </TableFooter>
         </Table>
       </TableContainer>
+      <Drawer
+        anchor={'right'}
+        open={openPopup}
+        onClose={onDrawerClose}
+        className={classes.sidePopup}
+      >
+        {selectedUserId ? (
+          <UserDetails userId={selectedUserId} />
+        ) : (
+          <Alert severity="error">This user does not have an Id</Alert>
+        )}
+      </Drawer>
     </Paper>
   );
 };
